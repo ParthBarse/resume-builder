@@ -348,7 +348,7 @@ const PersonalDetails = (props) => {
         <FormControl>
           <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <FormLabel>Post Graduation/Masters </FormLabel>
+            <FormLabel  style={{ fontWeight: 'bold' }} >Post Graduation/Masters* </FormLabel>
             </FormControl>
             <FormControl>
               <Select
@@ -379,10 +379,10 @@ const PersonalDetails = (props) => {
   semestersOfPostGraduate.map((ele, i)=>{
     
     return <div>
-               
+               <br/>
                <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <FormLabel>Year/Semester :- </FormLabel>
+              <FormLabel>Year/Semester*</FormLabel>
             </FormControl>
             <FormControl>
               <Select
@@ -406,7 +406,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -438,7 +438,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -461,12 +461,13 @@ const PersonalDetails = (props) => {
           </SimpleGrid>
           <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <formlable>Upload Marksheets</formlable>
+              <formlable>Upload Marksheets(pdf)*</formlable>
             </FormControl>
 
             <FormControl>
               <Input
                 type="file"
+                marginRight={8}
                 // onChange={handleFileChange}
                 onChange={(e)=>{
                   const ext = e.target.files[0].name.split(".")[e.target.files[0].name.split(".").length - 1]
@@ -483,7 +484,6 @@ const PersonalDetails = (props) => {
                 variant="whatsapp" // Apply the WhatsApp variant
                 w="8rem"
               />
-          
               <Button
                 color="#00b0ff"
                 onClick={handleAddInput}
@@ -491,11 +491,12 @@ const PersonalDetails = (props) => {
               >
                 View
               </Button>
-              <Button color="#00b0ff" onClick={handleAddInput}>
+              <Button color="red" onClick={handleAddInput}>
                 Delete
-              </Button>
+              </Button>{selectedFile && (
+  <Text mt={2}>Selected file: {selectedFile.name}</Text>)}
             </FormControl>
-          </SimpleGrid>
+          </SimpleGrid><br/>
         
 
           
@@ -531,6 +532,7 @@ const PersonalDetails = (props) => {
                 borderColor="#2F4F4F"
                 borderWidth="2px"
               />
+              <br/>
      
     </div>
   })
@@ -556,13 +558,12 @@ const PersonalDetails = (props) => {
       </VStack>
       <br />
 
-      <br />
-
+      <br /><br/>
       <VStack spacing={4} align="flex-start">
         <FormControl>
           <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <FormLabel> Under Graduate Degree/Diploma </FormLabel>
+            <FormLabel style={{ fontWeight: 'bold' }}> Under Graduate Degree/Diploma *</FormLabel>
             </FormControl>
             <FormControl>
               <Select
@@ -583,7 +584,7 @@ const PersonalDetails = (props) => {
                 </option>
                 <option value="Diploma">Diploma</option>
               </Select>
-            </FormControl>
+            </FormControl><br/>
           </SimpleGrid>
  {
   semestersOfUnderGraduate.map((ele, i)=>{
@@ -597,7 +598,7 @@ const PersonalDetails = (props) => {
           <br />
           <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <FormLabel>Year/Semester :- </FormLabel>
+              <FormLabel>Year/Semester* </FormLabel>
             </FormControl>
             <FormControl>
               <Select
@@ -619,7 +620,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -649,7 +650,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -680,11 +681,12 @@ const PersonalDetails = (props) => {
           </SimpleGrid>
           <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-              <formlable>Upload Marksheets</formlable>
+              <formlable>Upload Marksheets(pdf)*</formlable>
             </FormControl>
 
             <FormControl>
               <Input
+                marginRight={8}
                 type="file"
                 onChange={(e)=>{
                   // handleFileChange()
@@ -708,12 +710,14 @@ const PersonalDetails = (props) => {
               >
                 View
               </Button>
-              <Button color="#00b0ff" onClick={handleAddInput}>
+              <Button color="red" onClick={handleAddInput}>
                 Delete
-              </Button>
+              </Button>{selectedFile && (
+  <Text mt={2}>Selected file: {selectedFile.name}</Text>
+)}
             </FormControl>
           </SimpleGrid>
-        
+        <br/>
           <Divider
             orientation="horizontal"
             borderColor="#2F4F4F"
@@ -750,7 +754,7 @@ const PersonalDetails = (props) => {
     </div>
   })
  }
-
+<br/>
           <Button marginRight={2} color="#00b0ff" onClick={()=>addOneBlock(semestersOfUnderGraduate, setSemestersOfUnderGraduate)}>
             Add
           </Button>
@@ -770,21 +774,21 @@ const PersonalDetails = (props) => {
       </VStack>
       <br />
 
-      <br />
+      <br /><br/>
 
       <FormControl>
-        <FormLabel>12th</FormLabel>
+      <FormLabel style={{ fontWeight: 'bold', }}>12th Standard*</FormLabel>
       </FormControl>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
-      />
+      /><br/>
 
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
 
       <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -814,7 +818,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis* </FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -844,12 +848,13 @@ const PersonalDetails = (props) => {
       </SimpleGrid>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
         <FormControl>
-          <formlable>Upload Marksheets</formlable>
+        <formlable>Upload Marksheets(pdf)*</formlable>
         </FormControl>
 
         <FormControl>
           <Input
             type="file"
+            marginRight={8}
             onChange={(e)=>{
               // handleFileChange()
               
@@ -873,9 +878,11 @@ const PersonalDetails = (props) => {
           <Button color="#00b0ff" onClick={handleAddInput} marginRight={"4%"}>
             View
           </Button>
-          <Button color="#00b0ff" onClick={handleAddInput}>
+          <Button color="red" onClick={handleAddInput}>
             Delete
-          </Button>
+          </Button>{selectedFile && (
+  <Text mt={2}>Selected file: {selectedFile.name}</Text>
+)}
         </FormControl>
       </SimpleGrid>
       <FormControl>
@@ -898,25 +905,26 @@ const PersonalDetails = (props) => {
               setResumeInfo(updateResumeInfo);
             }}
           />
-        </FormControl>
+        </FormControl><br/>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
-
+ <br/> <br/> <br/> 
       <FormControl>
-        <FormLabel>11th</FormLabel>
+      <FormLabel style={{ fontWeight: 'bold' }}>11th Standard*</FormLabel>
       </FormControl>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
+      <br/>
 
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
       <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -946,7 +954,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis* </FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -976,12 +984,13 @@ const PersonalDetails = (props) => {
       </SimpleGrid>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
         <FormControl>
-          <formlable>Upload Marksheets</formlable>
+        <formlable>Upload Marksheets(pdf)*</formlable>
         </FormControl>
 
         <FormControl>
           <Input
             type="file"
+            marginRight={8}
             onChange={(e)=>{
               // handleFileChange()
               
@@ -1005,9 +1014,11 @@ const PersonalDetails = (props) => {
           <Button color="#00b0ff" onClick={handleAddInput} marginRight={"4%"}>
             View
           </Button>
-          <Button color="#00b0ff" onClick={handleAddInput}>
+          <Button color="red" onClick={handleAddInput}>
             Delete
-          </Button>
+          </Button>{selectedFile && (
+  <Text mt={2}>Selected file: {selectedFile.name}</Text>
+)}
         </FormControl>
       </SimpleGrid>
       <FormControl>
@@ -1030,26 +1041,27 @@ const PersonalDetails = (props) => {
               setResumeInfo(updateResumeInfo);
             }}
           />
-        </FormControl>
+        </FormControl><br/>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
+ <br/> <br/> <br/> 
 
       <FormControl>
-        <FormLabel>10th</FormLabel>
+      <FormLabel style={{ fontWeight: 'bold' }}>10th Standard*</FormLabel>
       </FormControl>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
-
+<br/>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
 
       <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -1079,7 +1091,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis* </FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -1109,12 +1121,13 @@ const PersonalDetails = (props) => {
       </SimpleGrid>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
         <FormControl>
-          <formlable>Upload Marksheets</formlable>
+        <formlable>Upload Marksheets(pdf)*</formlable>
         </FormControl>
 
         <FormControl>
           <Input
             type="file"
+            marginRight={8}
             onChange={(e)=>{
               // handleFileChange()
               
@@ -1139,9 +1152,11 @@ const PersonalDetails = (props) => {
           <Button color="#00b0ff" onClick={handleAddInput} marginRight={"4%"}>
             View
           </Button>
-          <Button color="#00b0ff" onClick={handleAddInput}>
+          <Button color="red" onClick={handleAddInput}>
             Delete
-          </Button>
+          </Button>{selectedFile && (
+  <Text mt={2}>Selected file: {selectedFile.name}</Text>
+)}
         </FormControl>
       </SimpleGrid>
       <FormControl>
@@ -1164,15 +1179,15 @@ const PersonalDetails = (props) => {
               setResumeInfo(updateResumeInfo);
             }}
           />
-        </FormControl>
+        </FormControl><br/>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
-
+ <br/> <br/> <br/>
       <FormControl>
-        <FormLabel>1st to 9th</FormLabel>
+      <FormLabel style={{ fontWeight: 'bold' }}>1st to 9th Standard*</FormLabel>
       </FormControl>
       <Divider
         orientation="horizontal"
@@ -1180,10 +1195,11 @@ const PersonalDetails = (props) => {
         borderWidth="2px"
       />
 
+<br/>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
        
         <FormControl>
-              <FormLabel>from/von</FormLabel>
+              <FormLabel>from/von*</FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -1213,7 +1229,7 @@ const PersonalDetails = (props) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>To/bis </FormLabel>
+              <FormLabel>To/bis* </FormLabel>
             </FormControl>
             <FormControl>
               <Input
@@ -1245,7 +1261,7 @@ const PersonalDetails = (props) => {
 
             <FormControl>
           <FormLabel>
-            Name of school - university/ Schule -Universität{" "}
+            Name of school - university/ Schule -Universität{" "}*
           </FormLabel>
         </FormControl>
         <FormControl>
@@ -1266,23 +1282,25 @@ const PersonalDetails = (props) => {
         </FormControl>
 
       </SimpleGrid>
+      <br/>
 
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
+ <br/> <br/> <br/> 
 
       <SimpleGrid>
-        <br />
         <FormControl>
-          <FormLabel>Blank Year(if any)</FormLabel>
+        <FormLabel style={{ fontWeight: 'bold' }}>Blank Year(if any)*</FormLabel>
         </FormControl>
         <Divider
           orientation="horizontal"
           borderColor="#2F4F4F"
           borderWidth="2px"
         />
+        <br />
       </SimpleGrid>
       {
         blankYear.map((ele, i)=>{
@@ -1290,7 +1308,7 @@ const PersonalDetails = (props) => {
           <FormControl>
             <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
               <FormControl>
-                <FormLabel>Reason for Break </FormLabel>
+                <FormLabel>Reason for Break* </FormLabel>
               </FormControl>
               <FormControl>
                 <Input
@@ -1312,7 +1330,7 @@ const PersonalDetails = (props) => {
   
             <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
             <FormControl>
-                <FormLabel>from/von</FormLabel>
+                <FormLabel>from/von*</FormLabel>
               </FormControl>
               <FormControl>
                 <Input
@@ -1343,7 +1361,7 @@ const PersonalDetails = (props) => {
               </FormControl>
   
               <FormControl>
-                <FormLabel>To/bis </FormLabel>
+                <FormLabel>To/bis* </FormLabel>
               </FormControl>
               <FormControl>
                 <Input
@@ -1373,12 +1391,13 @@ const PersonalDetails = (props) => {
               </FormControl>
   
             </SimpleGrid>
-  
+              <br/>
             <Divider
               orientation="horizontal"
               borderColor="#2F4F4F"
               borderWidth="2px"
             />
+            <br/>
             <Button marginRight={2} color="#00b0ff" onClick={()=>addOneBlock(blankYear, setBlankYear)}>
               Add
             </Button>
@@ -1394,7 +1413,7 @@ const PersonalDetails = (props) => {
             >
               Delete
             </Button>
-          </FormControl>
+          </FormControl><br/>
         </VStack>
         })
       }
@@ -1409,7 +1428,7 @@ const PersonalDetails = (props) => {
         information regarding your educational background is mandatory.
         Transparency is key to success. Remember: - A simple mistake can cause
         your VISA & Recognition process rejection.{" "}
-      </p>
+        </p> <br/> <br/>
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
@@ -1417,19 +1436,19 @@ const PersonalDetails = (props) => {
       />
       <br />
       <br />
-
+      <br/>
       <FormControl>
-        <FormLabel>Language Proficiency / Sprachkenntnisse: </FormLabel>
+      <FormLabel style={{ fontWeight: 'bold' }}>Language Proficiency / Sprachkenntnisse: *</FormLabel>
       </FormControl>
 
       <Divider
         orientation="horizontal"
         borderColor="#2F4F4F"
         borderWidth="2px"
-      />
+      /><br/>
       <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
         <FormControl>
-          <FormLabel>Mother tongue/ Muttersprache</FormLabel>
+          <FormLabel>Mother tongue/ Muttersprache*</FormLabel>
           <Input
             type="text"
             placeholder="Mothen tongue"
@@ -1446,7 +1465,7 @@ const PersonalDetails = (props) => {
         </FormControl>
 
         <FormControl>
-          <FormLabel>English/ Englisch </FormLabel>
+          <FormLabel>English/ Englisch* </FormLabel>
           <Select
             placeholder="Select an option"
             onChange={(e) => {
@@ -1470,28 +1489,38 @@ const PersonalDetails = (props) => {
         borderColor="#2F4F4F"
         borderWidth="2px"
       />
-
-      <formlable>German / Deutsch*</formlable>
-
+ <br/> <br/> <br/>
+ <formlable style={{ fontWeight: 'bold' }}>German / Deutsch*</formlable>
+      <Divider
+        orientation="horizontal"
+        borderColor="#2F4F4F"
+        borderWidth="2px"
+      /> <br/> 
       <Stack>
         <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
           <FormControl>
-            <FormLabel>Select an option</FormLabel>
+            <FormLabel>Select an option*</FormLabel>
           </FormControl>
           <FormControl>
-            <Select
-              placeholder="Select option"
-              value={selectedOption}
-              onChange={(e)=>{
-                const updateValue = {
-                  ...resumeInfo.edu,
-                  german: {...resumeInfo.edu.german, level :e.target.value },
-                };
-          
-                const updateResumeInfo = { ...resumeInfo, edu: updateValue };
-                setResumeInfo(updateResumeInfo);
-              }}
-            >
+          <Select
+  placeholder="Select option"
+  value={resumeInfo?.edu?.level[0]}
+  onChange={(e) => {
+   
+    const newYear = [...(resumeInfo?.edu?.level[0] || [])];
+    newYear[0] = e.target.value;;
+
+    const updateValue = {
+      ...resumeInfo.edu,
+      level: newYear,
+    };
+    const updateResumeInfo = { ...resumeInfo, edu: updateValue };
+    setResumeInfo(updateResumeInfo);
+  }}
+>
+  {/* Your Select options here */}
+
+
               <option value="A1">A1</option>
               <option value="A2">A2</option>
               <option value="B1">B1</option>
@@ -1500,7 +1529,7 @@ const PersonalDetails = (props) => {
           </FormControl>
         
           <FormControl>
-                  <FormLabel>from/von</FormLabel>
+                  <FormLabel>from/von*</FormLabel>
                 </FormControl>
                 <FormControl>
                   <Input
@@ -1530,7 +1559,7 @@ const PersonalDetails = (props) => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>To/bis </FormLabel>
+                  <FormLabel>To/bis* </FormLabel>
                 </FormControl>
                 <FormControl>
                   <Input
@@ -1558,7 +1587,7 @@ const PersonalDetails = (props) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Certificate (Level / date)/ Zertifikat (Stufe/Datum) </FormLabel>
+                <FormLabel>Certificate (Level / date)/ Zertifikat (Stufe/Datum) *</FormLabel>
                 </FormControl>
                 <FormControl>
                   <Input
@@ -1585,8 +1614,8 @@ const PersonalDetails = (props) => {
                     }}
                   />
                 </FormControl>
-        </SimpleGrid>
-        {(selectedOption === "B1" || selectedOption === "B2") && (
+        </SimpleGrid><br/>
+        {(resumeInfo?.edu?.level[0] === "B1" || resumeInfo?.edu?.level[0] === "B2") && (
           <FormControl>
             <SimpleGrid columns={[1, 1, 1, 3]} spacing={1} placeItems="center">
               <FormControl>
@@ -1595,6 +1624,7 @@ const PersonalDetails = (props) => {
               <FormControl>
                 <Input
                   type="file"
+                  marginRight={8}
                   onChange={(e)=>{
                     // handleFileChange()
                     // const updateValue = {
@@ -1618,7 +1648,7 @@ const PersonalDetails = (props) => {
                 >
                   View
                 </Button>
-                <Button color="#00b0ff" onClick={handleAddInput}>
+                <Button color="red" onClick={handleAddInput}>
                   Delete
                 </Button>
               </FormControl>
@@ -1629,6 +1659,7 @@ const PersonalDetails = (props) => {
                 <Input
                   type="file"
                   onChange={handleFileChange}
+                  marginRight={8}
                   variant="whatsapp" // Apply the WhatsApp variant
                 />
                 {selectedFile && (
@@ -1643,7 +1674,7 @@ const PersonalDetails = (props) => {
                 >
                   View
                 </Button>
-                <Button color="#00b0ff" onClick={handleAddInput}>
+                <Button color="red" onClick={handleAddInput}>
                   Delete
                 </Button>
               </FormControl>
@@ -1654,6 +1685,7 @@ const PersonalDetails = (props) => {
                 <Input
                   type="file"
                   onChange={handleFileChange}
+                  marginRight={8}
                   variant="whatsapp" // Apply the WhatsApp variant
                 />
                 {selectedFile && (
@@ -1668,7 +1700,7 @@ const PersonalDetails = (props) => {
                 >
                   View
                 </Button>
-                <Button color="#00b0ff" onClick={handleAddInput}>
+                <Button color="red" onClick={handleAddInput}>
                   Delete
                 </Button>
               </FormControl>
@@ -1678,6 +1710,7 @@ const PersonalDetails = (props) => {
               <FormControl>
                 <Input
                   type="file"
+                  marginRight={8}
                   onChange={handleFileChange}
                   variant="whatsapp" // Apply the WhatsApp variant
                 />
@@ -1693,7 +1726,7 @@ const PersonalDetails = (props) => {
                 >
                   View
                 </Button>
-                <Button color="#00b0ff" onClick={handleAddInput}>
+                <Button color="red" onClick={handleAddInput}>
                   Delete
                 </Button>
               </FormControl>
@@ -1707,8 +1740,8 @@ const PersonalDetails = (props) => {
         />
       </Stack>
 
-      {/* <FormControl> */}
-        {/* {blocks.map((block) => (
+      <FormControl>
+        {blocks.map((block) => (
           <Stack>
             <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
               <FormControl>
@@ -1932,9 +1965,9 @@ const PersonalDetails = (props) => {
               borderWidth="2px"
             />
           </Stack>
-        ))} */}
-
-        {/* <Button marginRight={2} color="#00b0ff" onClick={addBlock}>
+        ))}
+<br/>
+        <Button marginRight={2} color="#00b0ff" onClick={addBlock}>
           Add
         </Button>
         <Button
@@ -1949,7 +1982,7 @@ const PersonalDetails = (props) => {
           Delete
         </Button>
       </FormControl><br/>
-      <br/> */}
+      <br/>
 
     
 
