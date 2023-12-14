@@ -369,13 +369,13 @@ const PersonalDetails = (props) => {
                 {
                 workExperiences.map((ele, i)=>{
                   return <SimpleGrid>
-                  <FormLabel>Employer</FormLabel><br/>
+                      <FormLabel>Employer*</FormLabel><br />
                  
-                  <FormLabel>Current/Last</FormLabel>
+                      <FormLabel>Past*</FormLabel>
                     
                   <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
                   <FormControl>
-                  <FormLabel>From - to (month / year)</FormLabel></FormControl>
+                  <FormLabel>From -to (month / year)*</FormLabel></FormControl>
                   <FormControl>
                   <Input
                     type="date"
@@ -402,7 +402,7 @@ const PersonalDetails = (props) => {
                     }}
                   /></FormControl>
                   <FormControl>
-                  <FormLabel> von -bis (Monat - Jahr)</FormLabel></FormControl>
+                  <FormLabel> von/bis (Monat - Jahr)*</FormLabel></FormControl>
                   <FormControl>
                   <Input
                     type="date"
@@ -430,7 +430,7 @@ const PersonalDetails = (props) => {
                   /></FormControl>
                   <FormControl>
                   <FormLabel> "Employer Name / Address
-                    Name/Adresse des Arbeitgebers"</FormLabel></FormControl>
+                  Name/Adresse des Arbeitgebers"*</FormLabel></FormControl>
                   <FormControl>
                   <Input
                     type="text"
@@ -448,7 +448,7 @@ const PersonalDetails = (props) => {
                   /></FormControl>
                   <FormControl>
                   <FormLabel>"Department / Position
-                    Abteilung / Position"</FormLabel></FormControl>
+                  Abteilung / Position"*</FormLabel></FormControl>
                   <FormControl>
                   <Input
                     type="text"
@@ -467,9 +467,10 @@ const PersonalDetails = (props) => {
                   </SimpleGrid>
                  <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
               <FormControl>
-             <FormLabel>Upload Internship Certificate</FormLabel></FormControl>
+              <FormLabel>Upload Experience Certificate(pdf)*</FormLabel></FormControl>
              <FormControl> <Input
                type="file"
+               marginRight={8}
                onChange={(e)=>{
                 
                 const ext = e.target.files[0].name.split(".")[e.target.files[0].name.split(".").length - 1]
@@ -481,9 +482,9 @@ const PersonalDetails = (props) => {
               
              />
              
-           <Button color="#00b0ff">
+           <Button color="#00b0ff" marginRight={2}>
                View</Button>
-               <Button color="#00b0ff">
+               <Button color="red">
                  Delete</Button></FormControl>
                  </SimpleGrid><br/>
                 </SimpleGrid>
@@ -963,6 +964,7 @@ const PersonalDetails = (props) => {
                 <FormLabel>Upload Internship Certificate*</FormLabel></FormControl>
               <FormControl> <Input
                 type="file"
+                marginRight={8}
                 onChange={(e)=>{
                   handleFileChange(e)
                     // const updateValue = {
@@ -982,7 +984,7 @@ const PersonalDetails = (props) => {
                 {selectedFile && (
                   <Text mt={2}>Selected file: {selectedFile.name}</Text>
                 )}
-                <Button color="#00b0ff">
+                <Button color="#00b0ff" marginRight={2}>
                   View</Button>
                 <Button color="red">
                   Delete</Button></FormControl>
