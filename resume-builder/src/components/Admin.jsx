@@ -6,11 +6,11 @@ import axios from 'axios';
 
 const Admin = () => {
   const [students, setStudents] = useState([]);
-
+  console.log('env'+process.env.REACT_APP_HOST)
   const getAllResumes = async() => {
     const res = await axios({
       method : "get",
-      url : "http://localhost:5000/getAllResumes",
+      url : `http://${process.env.REACT_APP_HOST}:5000/getAllResumes`,
     })
     if(res.data.success === true){
       setStudents(res.data.resumes)
@@ -22,7 +22,7 @@ const Admin = () => {
     console.log(resumeId);
     const res = await axios({
       method : "delete",
-      url : "http://localhost:5000/deleteResume",
+      url : `http://${process.env.REACT_APP_HOST}:5000/deleteResume`,
       data : {
         resumeId : resumeId
       }
@@ -41,7 +41,7 @@ useEffect(()=>{
 const user = {
   _id : "857301450afd17735c0f117e"
 }
-const host = `http://localhost:5000/public`
+const host = `http://${process.env.REACT_APP_HOST}:5000/public`
  
   return (
     <ChakraProvider >

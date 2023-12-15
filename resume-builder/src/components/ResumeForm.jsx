@@ -230,7 +230,7 @@ const ResumeForm = () => {
 
     const res1 = await axios({
       method: "post",
-      url: `http://localhost:5000/createResume`,
+      url: `http://${process.env.REACT_APP_HOST}:5000/createResume`,
       data: {
         "given_name": firstname,
         "sur_name": lastname,
@@ -290,7 +290,7 @@ const ResumeForm = () => {
 
     const res = await axios({
       method: "post",
-      url: `http://localhost:5000/addFiles`,
+      url: `http://${process.env.REACT_APP_HOST}:5000/addFiles`,
       data: formData
     })
     console.log(res);
@@ -362,14 +362,14 @@ const ResumeForm = () => {
 
   return (
     <Stack mb="50px">
-      <button
+      {page==4?(<button
         style={{
           backgroundColor: "black",
           padding: "2px",
           color: "white"
         }}
         onClick={submit}
-      >Press b krlo ab</button>
+      >Save and Submit</button>):''}
       <Center
         style={{ display: page === 5 ? "none" : "flex" }}
         w="100%"
