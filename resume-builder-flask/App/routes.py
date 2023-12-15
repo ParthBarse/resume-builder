@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 # Endpoint for requesting password reset (for admin)
 @app.route("/sendApprove", methods=["GET"])
-def forgot_password_admin():
+def sendApprove():
     try:
         mailToSend = request.args.get('email')
         # Send the password reset link via email
@@ -45,8 +45,8 @@ def forgot_password_admin():
     except Exception as e:
         return jsonify({'success': False, 'msg': 'Something Went Wrong.', 'reason': str(e)}), 500
 
-@app.route("/sendApprove", methods=["GET"])
-def forgot_password_admin():
+@app.route("/sendDisapprove", methods=["GET"])
+def sendDisapprove():
     try:
         mailToSend = request.args.get('email')
         comment = request.args.get('comment')
