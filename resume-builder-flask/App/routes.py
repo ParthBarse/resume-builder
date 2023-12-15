@@ -2,12 +2,9 @@ from App import app, db, bcrypt, login_manager
 from flask import request, jsonify
 import smtplib
 import os
-
-from pymongo import MongoClient
 # import imaplib
 import email
 from email.mime.text import MIMEText
-from functools import wraps
 from flask import Flask, request, jsonify, send_file
 
 
