@@ -148,7 +148,7 @@ const host = `http://${process.env.REACT_APP_HOST}:5000/public`
                         </a>
                   </Td>
                   <Td>
-                        <button className='p-2 bg-green-700 rounded-md text-white' onClick={(e)=>{axios.get(`http://20.197.17.85:5550/sendApprove?email=${student.email}`).then(alert('approved successfully!'))}} >Approve</button>
+                        <button className='p-2 bg-green-700 rounded-md text-white' onClick={(e)=>{axios.get(`http://20.197.17.85:5550/sendApprove?email=${student.email}`).then(x=>alert('approved successfully!'))}} >Approve</button>
                   </Td>
                   <Td>
                         <button className='p-2 bg-yellow-600 rounded-md text-white'>Disapprove</button>
