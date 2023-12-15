@@ -44,3 +44,29 @@ def forgot_password_admin():
 
     except Exception as e:
         return jsonify({'success': False, 'msg': 'Something Went Wrong.', 'reason': str(e)}), 500
+
+@app.route("/sendApprove", methods=["GET"])
+def forgot_password_admin():
+    try:
+        mailToSend = request.args.get('email')
+        comment = request.args.get('comment')
+        # Send the password reset link via email
+        sender_email = "partbarse92@gmail.com"
+        smtp_server = smtplib.SMTP("smtp.gmail.com", 587)
+        smtp_server.ehlo()
+        smtp_server.starttls()
+        smtp_server.login("partbarse92@gmail.com", "xdfrjwaxctwqpzyg")
+
+        message_text = f"Hello, Your Resume is Rejected by Admin \n\n Please Review below comments and resubmit the form - \n {comment}"
+        message = MIMEText(message_text)
+        message["Subject"] = "Request Approved Rejected"
+        message["From"] = sender_email
+        message["To"] = mailToSend
+
+        smtp_server.sendmail(sender_email, mailToSend, message.as_string())
+        smtp_server.quit()
+
+        return jsonify({'success': True, 'msg': 'Mail Send'}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'msg': 'Something Went Wrong.', 'reason': str(e)}), 500
