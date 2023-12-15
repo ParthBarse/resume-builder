@@ -111,22 +111,12 @@ const PersonalDetails = (props) => {
 
   const [option, setOption] = useState('');
 
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-    schoolName: '',
-    schoolAddress: '',
-  });
+ 
 
   const handleOptionChange = (value) => {
     setOption(value);
     // Reset form data when changing options
-    setFormData({
-      name: '',
-      address: '',
-      schoolName: '',
-      schoolAddress: '',
-    });
+ 
   };
 
   const handleFormSubmit = () => {
@@ -337,6 +327,94 @@ const PersonalDetails = (props) => {
       </SimpleGrid>
     );
   };
+
+
+  const [formData, setFormData] = useState([
+    { name: '', rollNo: '', duties: [''] }
+  ]);
+  
+  const [printedEntries, setPrintedEntries] = useState('');
+
+
+  const handleNameChange = (index, value) => {
+    const newData = [...formData];
+    newData[index].name = value;
+    setFormData(newData);
+  };
+  const handleDeleteDuty = (formIndex) => {
+    const newData = [...formData];
+    const lastDutyIndex = newData[formIndex].duties.length - 1;
+    if (lastDutyIndex >= 0) {
+      newData[formIndex].duties.splice(lastDutyIndex, 1);
+      setFormData(newData);
+    }
+  };
+  const handleRollNoChange = (index, value) => {
+    const newData = [...formData];
+    newData[index].rollNo = value;
+    setFormData(newData);
+  };
+
+  const handleDutyChange = (formIndex, dutyIndex, value) => {
+    const newData = [...formData];
+    newData[formIndex].duties[dutyIndex] = value;
+    setFormData(newData);
+  };
+
+  const handleAddDuty = (index) => {
+    const newData = [...formData];
+    newData[index].duties.push('');
+    setFormData(newData);
+  };
+
+  const handleAddAnother = () => {
+    setFormData([...formData, { name: '', rollNo: '', duties: [''] }]);
+  };
+
+  const handlePrintEntries = () => {
+    const entries = formData.map((data, index) => (
+      <div key={index}>
+        <p>Student {index + 1}:</p>
+        <p>Name: {data.name}</p>
+        <p>Roll No: {data.rollNo}</p>
+        <p>Duties:</p>
+        <ul>
+          {data.duties.map((duty, dutyIndex) => (
+            <li key={dutyIndex}>{duty}</li>
+          ))}
+        </ul>
+        <hr />
+      </div>
+    ));
+
+    setPrintedEntries(entries);
+  };
+
+ const handleDeleteAll = () => {
+  if (formData.length > 0) {
+    const newData = [...formData];
+    newData.pop(); // Remove the last entry
+    setFormData(newData);
+    setPrintedEntries('');
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
 
@@ -669,677 +747,226 @@ const PersonalDetails = (props) => {
         )}
 
         {option === 'no' && (
-          <FormControl>
-            <SimpleGrid>
-              
-            </SimpleGrid>
-              <FormLabel style={{ fontWeight: 'bold' }}>Internship	*</FormLabel><br />
-              <Divider orientation="horizontal" borderColor="#2F4F4F" borderWidth="2px" />
-              <br />
-           {
-             internships.map((ele, i)=>{
-               return <div>
-                <FormLabel style={{ fontWeight: 'bold' }}>{i===0?"Recent": "Past"} : *</FormLabel>
-                   <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
-                <FormControl>
-                  <FormLabel>From - to (month / year)*</FormLabel> </FormControl>
-                <FormControl>
-                  <Input
-                    type="date"
-                    placeholder=""
+          
+          <VStack spacing={4} align="stretch">
+             <FormLabel style={{ fontWeight: 'bold' }}>Internship	*</FormLabel><br />
+          {formData.map((data, index) => (
 
-                    onChange={(e) => {
-                      const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
+            <Box key={index} borderWidth="1px" p={4} borderRadius="md">
+              <FormControl>
+      <FormLabel>From - to (month / year)*</FormLabel> </FormControl>
+    <FormControl>
+    <Input
+        type="date"
+        placeholder=""
 
-                      if (!isNaN(selectedDate.getTime())) {
-                        const day = String(selectedDate.getDate()).padStart(2, '0');
-                        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                        const year = selectedDate.getFullYear();
+        onChange={(e) => {
+          const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
+
+          if (!isNaN(selectedDate.getTime())) {
+            const day = String(selectedDate.getDate()).padStart(2, '0');
+            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+            const year = selectedDate.getFullYear();
 
 
-                        const formattedDate = `${day}-${month}-${year}`;
-                         // const updateValue = {
-                        //   ...resumeInfo.work,
-                        //   from2: `From:${formattedDate}`
-                        // };
-                  
-                        // const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                        // setResumeInfo(updateResumeInfo);
-                        handleInputOfIntership("from_date", formattedDate, i)
-                      }
-                    }}
-                  /> </FormControl>
-                <FormControl>
-                  <FormLabel> von -bis (Monat - Jahr)*</FormLabel> </FormControl>
-                <FormControl>
-                  <Input
-                    type="date"
-                    placeholder=""
-                    onChange={(e) => {
-                      const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
+            const formattedDate = `${day}-${month}-${year}`;
+            const newYear = [...(resumeInfo?.work?.from2 || [])];
+            newYear[index] = formattedDate;
 
-                      if (!isNaN(selectedDate.getTime())) {
-                        const day = String(selectedDate.getDate()).padStart(2, '0');
-                        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                        const year = selectedDate.getFullYear();
+            const updateValue = {
+              ...resumeInfo.work,
+              from2: newYear
+            };
 
+            const updateResumeInfo = { ...resumeInfo, work: updateValue };
+            setResumeInfo(updateResumeInfo);
+          }
+        }}
+      />
+    </FormControl>
 
-                        const formattedDate = `${day}-${month}-${year}`;
-                        const newYear = [...(resumeInfo?.work?.to2 || [])];
-                        newYear[0] = formattedDate;
-                  
-                        // const updateValue = {
-                        //   ...resumeInfo.work,
-                        //   to2: `To:${formattedDate}`
-                        // };
-                  
-                        // const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                        // setResumeInfo(updateResumeInfo);
-                        handleInputOfIntership("to_date", formattedDate, i)
-                      }
-                    }}
-                  /> </FormControl>
-                <FormControl>
-                  <FormLabel>"Hospital Name / Address
-                    Adresse des Krankenhauses/der Klinik"*</FormLabel> </FormControl>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder=""
-                    value={resumeInfo.work?.internship[i]?.hospital_name}
-                    onChange={(e) => {
-                      const newYear = [...(resumeInfo?.work?.Hosp[0] || [])];
-                      newYear[0] = e.target.value;
+    <FormControl>
+      <FormLabel> von -bis (Monat - Jahr)*</FormLabel> </FormControl>
+    <FormControl>
+      <Input
+        type="date"
+        placeholder=""
+        onChange={(e) => {
+          const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
+
+          if (!isNaN(selectedDate.getTime())) {
+            const day = String(selectedDate.getDate()).padStart(2, '0');
+            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+            const year = selectedDate.getFullYear();
 
 
-                      // const updateValue = {
-                      //   ...resumeInfo.work,
-                      //   Hosp: e.target.value
-                      // };
-                      // const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                      // setResumeInfo(updateResumeInfo);
-                      
-                      handleInputOfIntership("hospital_name", e.target.value, i)
-                    }}
-                  /> </FormControl>
-                <FormControl>
-                  <FormLabel>"Department / Position
-                    Abteilung / Position"*</FormLabel> </FormControl>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder=""
-                    // value={resumeInfo.work.Dept2[0]}
-                    value={resumeInfo.work?.internship[i]?.department}
-                    onChange={(e) => {
-                      const newYear = [...(resumeInfo?.work?.Dept2[0] || [])];
-                      newYear[0] = e.target.value;
+            const formattedDate = `${day}-${month}-${year}`;
+            const newYear = [...(resumeInfo?.work?.to2 || [])];
+            newYear[index] = formattedDate;
+
+            const updateValue = {
+              ...resumeInfo.work,
+              to2: newYear
+            };
+
+            const updateResumeInfo = { ...resumeInfo, work: updateValue };
+            setResumeInfo(updateResumeInfo);
+          }
+        }}
+      /> </FormControl>
+    <FormControl>
+      <FormLabel>"Hospital Name / Address
+        Adresse des Krankenhauses/der Klinik"*</FormLabel> </FormControl>
+    <FormControl>
+      <Input
+        type="text"
+        placeholder=""
+        value={resumeInfo.work.Hosp[index]}
+        onChange={(e) => {
+          const newYear = [...(resumeInfo?.work?.Hosp[index] || [])];
+          newYear[index] = e.target.value;
 
 
-                      // const updateValue = {
-                      //   ...resumeInfo.work,
-                      //   Dept2: e.target.value
-                      // };
-                      // const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                      // setResumeInfo(updateResumeInfo);
-                      handleInputOfIntership("department", e.target.value, i)
-                    }}
-                  /> </FormControl>
-
-            </SimpleGrid>
-            <SimpleGrid><br />
-
-
-
-
-              <FormLabel style={{ fontWeight: 'bold' }} >Duty1	*</FormLabel><br />
-
-              <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} >
-                <FormControl>
-                  <FormLabel>"Information about duties performed	"*</FormLabel></FormControl>
-
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder=""
-                    value={resumeInfo.work.Duty[0]}
-                    onChange={(e) => {
-                      const newYear = [...(resumeInfo?.work?.Duty[0] || [])];
-                      newYear[0] = e.target.value;
+          const updateValue = {
+            ...resumeInfo.work,
+            Hosp: newYear,
+          };
+          const updateResumeInfo = { ...resumeInfo, work: updateValue };
+          setResumeInfo(updateResumeInfo);
+        }}
+      /> </FormControl>
+    <FormControl>
+      <FormLabel>"Department / Position
+        Abteilung / Position"*</FormLabel> </FormControl>
+    <FormControl>
+      <Input
+        type="text"
+        placeholder=""
+        value={resumeInfo.work.Dept2[index]}
+        onChange={(e) => {
+          const newYear = [...(resumeInfo?.work?.Dept2[index] || [])];
+          newYear[index] = e.target.value;
 
 
-                      // const updateValue = {
-                      //   ...resumeInfo.work,
-                      //   Duty: newYear,
-                      // };
-                      // const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                      // setResumeInfo(updateResumeInfo);
-                      handleDutiesChange(e.target.value, i , 0)
-                    }}
-                  /></FormControl>
-                <FormControl>
-                  <FormLabel>Duration (in months)	*</FormLabel></FormControl>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder=""
-                    value={resumeInfo.work.Dura[0]}
-                    onChange={(e) => {
-                      const newYear = [...(resumeInfo?.work?.Dura[0] || [])];
-                      newYear[0] = e.target.value;
+          const updateValue = {
+            ...resumeInfo.work,
+            Dept2: newYear,
+          };
+          const updateResumeInfo = { ...resumeInfo, work: updateValue };
+          setResumeInfo(updateResumeInfo);
+        }}
+      /> </FormControl>
+
+              {data.duties.map((duty, dutyIndex) => (
+
+<div>  
+<FormLabel>`Duty {dutyIndex+1}`</FormLabel>
+  <FormControl>
+          <FormLabel>"Information about duties performed	"*</FormLabel></FormControl>
+
+       
+<FormControl>
+      <Input
+        type="text"
+        placeholder=""
+       
+        onChange={(e) => {
+          const newYear = [...(resumeInfo?.work?.Duty || [])];
+          
+          // Ensure the object at the specified index exists and has a 'dut' property
+          if (newYear[index] && newYear[index].dut) {
+            const newDut = [...newYear[index].dut];
+            newDut[dutyIndex] = e.target.value;
+        
+            // Update the 'dut' property of the object at the specified index
+            newYear[index] = { ...newYear[index], dut: newDut };
+        
+            const updateValue = {
+              ...resumeInfo.work,
+              Duty: newYear,
+            };
+        
+            const updateResumeInfo = { ...resumeInfo, work: updateValue };
+            setResumeInfo(updateResumeInfo);
+          } else {
+            console.error("Invalid structure at index:", index);
+          }
+        }}
+        
+      />
+          <FormLabel>Duration (in months)	*</FormLabel></FormControl>
+        <FormControl>
+          <Input
+            type="text"
+            placeholder=""
+            value={resumeInfo.profile.firstnjame}
+            onChange={(e) => {
+              const newYear = [...(resumeInfo?.work?.Dura || [])];
+            
+              // Ensure the object at the specified index exists
+              if (newYear[index]) {
+                // Ensure the 'dur' property exists
+                if (newYear[index].dur) {
+                  const newDut = [...newYear[index].dur];
+                  newDut[dutyIndex] = e.target.value;
+            
+                  // Update the 'dur' property of the object at the specified index
+                  newYear[index] = { ...newYear[index], dur: newDut };
+            
+                  const updateValue = {
+                    ...resumeInfo.work,
+                    Dura: newYear,
+                  };
+            
+                  const updateResumeInfo = { ...resumeInfo, work: updateValue };
+                  setResumeInfo(updateResumeInfo);
+                } else {
+                  console.error("Invalid structure at index:", index, "or missing 'dur' property.");
+                }
+              } else {
+                console.error("Invalid structure at index:", index);
+              }
+            }}
+            
+          /></FormControl>
 
 
-                      const updateValue = {
-                        ...resumeInfo.work,
-                        Dura: newYear,
-                      };
-                      const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                      setResumeInfo(updateResumeInfo);
-                    }}
-                  /></FormControl>
-                <Divider
-                  orientation="horizontal"
-                  borderColor="#2F4F4F"
-                  borderWidth="2px"
-                />
-              </SimpleGrid>
-      
 
-
-
-
-
-
-              {blocks3.map((block, index) => (
-                <SimpleGrid>
-
-                  <FormLabel style={{ fontWeight: 'bold' }}>{`Duty${block.id + 1}`}*</FormLabel><br />
-
-                  <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} >
-                    <FormControl>
-                      <FormLabel>"Information about duties performed	"*</FormLabel></FormControl>
-
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.profile.firstnjame}
-                        onChange={(e) => {
-                          // const updateValue = {
-                          //   ...resumeInfo.profile,
-                          //   firsjtname: e.target.value,
-                          // };
-                          // const updateResumeInfo = { ...resumeInfo, profile: updateValue };
-                          // setResumeInfo(updateResumeInfo);
-                          
-                      handleDutiesChange(e.target.value, i , index+1)
-                        }}
-                      /></FormControl>
-                    <FormControl>
-                      <FormLabel>Duration (in months)	*</FormLabel></FormControl>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.profile.firstnjame}
-                        onChange={(e) => {
-                          const updateValue = {
-                            ...resumeInfo.profile,
-                            firsjtname: e.target.value,
-                          };
-                          const updateResumeInfo = { ...resumeInfo, profile: updateValue };
-                          setResumeInfo(updateResumeInfo);
-                        }}
-                      /></FormControl>
-                    <Divider
-                      orientation="horizontal"
-                      borderColor="#2F4F4F"
-                      borderWidth="2px"
-                    />
-                  </SimpleGrid>
-
-                  <br />
-                </SimpleGrid>
+                
+                </div>
               ))}
-
-
-
-
-
-
-
-
-            </SimpleGrid>
-            <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
-              <FormControl>
-                <Button marginRight={2} color="#00b0ff" onClick={addBlock3} >
-                  Add
-                </Button>
-                <Button
-                  color="red"
-                  onClick={() => {
-                    const lastBlock = blocks3[blocks3.length - 1];
-                    if (lastBlock) {
-                      deleteBlock3(lastBlock.id);
-                      const newHobbies = [...(resumeInfo.work.Duty)];
-                      newHobbies.pop();
-
-                      const updatedProfile = {
-                        ...resumeInfo?.work,
-                        Duty: newHobbies,
-                      };
-
-                      const updatedResumeInfo = {
-                        ...resumeInfo,
-                        work: updatedProfile,
-                      };
-
-                      setResumeInfo(updatedResumeInfo);
-                    }
-                  }}
-                >
-                  Delete
-                </Button></FormControl>
-
-            </SimpleGrid>
-            <br />
-
-            <br />
-
-
-            <p style={paragraphStyle}>
-              Instructions to the Candidate:  Please write here as briefly and in as much detail as possible about the tasks and activities you learned during your internship. Also
-              mention the specialist departments / facilities. The more the better. But please note that you will be asked about your skills and experience in the interview and must be
-              able to explain them.
-            </p><br />
-            <br />
-
-
-
-
-
-
-            <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
-              <FormControl>
-                <FormLabel>Upload Internship Certificate*</FormLabel></FormControl>
-              <FormControl> <Input
-                type="file"
-                marginRight={8}
-                onChange={(e)=>{
-                  handleFileChange(e)
-                    // const updateValue = {
-                    //   ...resumeInfo.files,
-                    //   [`post_graduation_marksheet_${resumeInfo.edu.post_graduate[i].year_no}`] : e.target.files[0],
-                    // };
-                    // const updateResumeInfo = { ...resumeInfo, files: updateValue };
-                    // setResumeInfo(updateResumeInfo);
-                    const ext = e.target.files[0].name.split(".")[e.target.files[0].name.split(".").length - 1]
-                    handleInputOfIntership("internship_certificate" , `internship_certificate_${i+1}.${ext}`, i)
-                  }
-                }
-                colorScheme="#00b0ff"
-                w="8rem"
-                rightIcon={<AddIcon />}
-              />
-                {selectedFile && (
-                  <Text mt={2}>Selected file: {selectedFile.name}</Text>
-                )}
-                <Button color="#00b0ff" marginRight={2}>
-                  View</Button>
-                <Button color="red">
-                  Delete</Button></FormControl>
-            </SimpleGrid>
-              </div>
-            })
-           }
-
-            <Divider
-              orientation="horizontal"
-              borderColor="#2F4F4F"
-              borderWidth="0.5px"
-            />
-
-
-
-
-
-            {/* {blocks2.map((block, index) => (
-              <div>
-                <Divider orientation="horizontal" borderColor="#2F4F4F" borderWidth="0.5px" /><br />
-
-                <SimpleGrid >
-
-
-                  <FormLabel style={{ fontWeight: 'bold' }}>Past*</FormLabel>
-
-
-                  <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
-                    <FormControl>
-                      <FormLabel>From - to (month / year)*</FormLabel> </FormControl>
-                    <FormControl>
-                      <Input
-                        type="date"
-                        placeholder=""
-
-                        onChange={(e) => {
-
-
-                          const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
-
-                          if (!isNaN(selectedDate.getTime())) {
-                            const day = String(selectedDate.getDate()).padStart(2, '0');
-                            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                            const year = selectedDate.getFullYear();
-
-                            const formattedDate = `${day}-${month}-${year}`;
-                            const newYear = [...(resumeInfo?.work?.from2 || [])];
-                            newYear[index + 1] = formattedDate;
-
-                            const updateValue = {
-                              ...resumeInfo.work,
-                              from2: newYear
-                            };
-                            const updateResumeInfo = {
-                              ...resumeInfo,
-                              work: updateValue,
-                            };
-                            setResumeInfo(updateResumeInfo);
-                          }
-                        }}
-                      /> </FormControl>
-                    <FormControl>
-                      <FormLabel> von -bis (Monat - Jahr)*</FormLabel> </FormControl>
-                    <FormControl>
-                      <Input
-                        type="date"
-                        placeholder=""
-                        onChange={(e) => {
-
-
-                          const selectedDate = new Date(e.target.value + 'T00:00:00'); // Adding time component
-
-                          if (!isNaN(selectedDate.getTime())) {
-                            const day = String(selectedDate.getDate()).padStart(2, '0');
-                            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                            const year = selectedDate.getFullYear();
-
-                            const formattedDate = `${day}-${month}-${year}`;
-                            const newYear = [...(resumeInfo?.work?.to2 || [])];
-                            newYear[index + 1] = formattedDate;
-
-                            const updateValue = {
-                              ...resumeInfo.work,
-                              to2: newYear
-                            };
-                            const updateResumeInfo = {
-                              ...resumeInfo,
-                              work: updateValue,
-                            };
-                            setResumeInfo(updateResumeInfo);
-                          }
-                        }}
-                      /> </FormControl>
-                    <FormControl>
-                      <FormLabel>"Hospital Name / Address
-                        Adresse des Krankenhauses/der Klinik"*</FormLabel> </FormControl>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.work.Hosp[index + 1]}
-                        onChange={(e) => {
-                          const newComputerSkills = [...(resumeInfo?.work?.Hosp || [])];
-                          newComputerSkills[index + 1] = e.target.value;
-                          const updateValue = {
-                            ...resumeInfo.work,
-                            Hosp: newComputerSkills,
-                          };
-                          const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                          setResumeInfo(updateResumeInfo);
-                        }}
-                      /> </FormControl>
-                    <FormControl>
-                      <FormLabel>"Department / Position
-                        Abteilung / Position"*</FormLabel> </FormControl>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.work.Dept2[index + 1]}
-                        onChange={(e) => {
-                          const newComputerSkills = [...(resumeInfo?.work?.Dept2 || [])];
-                          newComputerSkills[index + 1] = e.target.value;
-                          const updateValue = {
-                            ...resumeInfo.work,
-                            Dept2: newComputerSkills,
-                          };
-                          const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                          setResumeInfo(updateResumeInfo);
-                        }}
-                      /> </FormControl>
-                  </SimpleGrid>
-                </SimpleGrid>
-
-                <SimpleGrid><br />
-                  <FormLabel style={{ fontWeight: 'bold' }}>Duty1	*</FormLabel><br />
-
-                  <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} >
-                    <FormControl>
-                      <FormLabel>"Information about duties performed	"*</FormLabel></FormControl>
-
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.work.Duty[0]}
-                        onChange={(e) => {
-                          const newYear = [...(resumeInfo?.work?.Duty[0] || [])];
-                          newYear[0] = e.target.value;
-
-
-                          const updateValue = {
-                            ...resumeInfo.work,
-                            Duty: newYear,
-                          };
-                          const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                          setResumeInfo(updateResumeInfo);
-                        }}
-                      /></FormControl>
-                    <FormControl>
-                      <FormLabel>Duration (in months)	*</FormLabel></FormControl>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder=""
-                        value={resumeInfo.work.Dura[0]}
-                        onChange={(e) => {
-                          const newYear = [...(resumeInfo?.work?.Dura[0] || [])];
-                          newYear[0] = e.target.value;
-
-
-                          const updateValue = {
-                            ...resumeInfo.work,
-                            Dura: newYear,
-                          };
-                          const updateResumeInfo = { ...resumeInfo, work: updateValue };
-                          setResumeInfo(updateResumeInfo);
-                        }}
-                      /></FormControl>
-
-                  </SimpleGrid>
-                  <Divider
-                    orientation="horizontal"
-                    borderColor="#2F4F4F"
-                    borderWidth="2px"
-                  /> <br />
-                </SimpleGrid>
-                {blocks4.map((block) => (
-                  <SimpleGrid>
-
-                    <FormLabel style={{ fontWeight: 'bold' }}>{`Duty${block.id + 1}`}*</FormLabel><br />
-
-                    <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} >
-                      <FormControl>
-                        <FormLabel>"Information about duties performed	"*</FormLabel></FormControl>
-
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder=""
-                          value={resumeInfo.profile.firstnjame}
-                          onChange={(e) => {
-                            const updateValue = {
-                              ...resumeInfo.profile,
-                              firsjtname: e.target.value,
-                            };
-                            const updateResumeInfo = { ...resumeInfo, profile: updateValue };
-                            setResumeInfo(updateResumeInfo);
-                          }}
-                        /></FormControl>
-                      <FormControl>
-                        <FormLabel>Duration (in months)	*</FormLabel></FormControl>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder=""
-                          value={resumeInfo.profile.firstnjame}
-                          onChange={(e) => {
-                            const updateValue = {
-                              ...resumeInfo.profile,
-                              firsjtname: e.target.value,
-                            };
-                            const updateResumeInfo = { ...resumeInfo, profile: updateValue };
-                            setResumeInfo(updateResumeInfo);
-                          }}
-                        /></FormControl>
-
-                    </SimpleGrid>
-                    <Divider
-                      orientation="horizontal"
-                      borderColor="#2F4F4F"
-                      borderWidth="2px"
-                    />
-                    <br />
-                  </SimpleGrid>
-                ))}
-
-                <SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
-                  <FormControl>
-                    <Button marginRight={2} color="#00b0ff" onClick={addBlock4} >
-                      Add
-                    </Button>
-                    <Button
-                      color="red"
-                      onClick={() => {
-                        const lastBlock = blocks4[blocks4.length - 1];
-                        if (lastBlock) {
-                          deleteBlock4(lastBlock.id);
-
-
-
-
-                          const newHobbies = [...(resumeInfo.work.Duty)];
-                          newHobbies.pop();
-
-                          const updatedProfile = {
-                            ...resumeInfo?.work,
-                            Duty: newHobbies,
-                          };
-
-                          const updatedResumeInfo = {
-                            ...resumeInfo,
-                            work: updatedProfile,
-                          };
-
-                          setResumeInfo(updatedResumeInfo);
-                        }
-                      }}
-                    >
-                      Delete
-                    </Button></FormControl>
-                </SimpleGrid>
-                <br />
-
-                <br />
-
-
-                <p style={paragraphStyle}>
-                  Instructions to the Candidate:  Please write here as briefly and in as much detail as possible about the tasks and activities you learned during your internship. Also
-                  mention the specialist departments / facilities. The more the better. But please note that you will be asked about your skills and experience in the interview and must be
-                  able to explain them.
-                </p><br />
-                <br />
-
-
-
-
-                <SimpleGrid columns={[1, 1, 1, 2]} spacing={4} placeItems="center">
-                  <FormControl>
-                    <FormLabel>Upload Internship Certificate*</FormLabel></FormControl>
-                  <FormControl> <Input
-                    type="file"
-                    onChange={handleFileChange1}
-                    colorScheme="#00b0ff"
-                    w="8rem"
-                    rightIcon={<AddIcon />}
-                  />
-                    {selectedFile && (
-                      <Text mt={2}>Selected file: {selectedFile.name}</Text>
-                    )}
-                    <Button color="#00b0ff">
-                      View</Button>
-                    <Button color="#00b0ff">
-                      Delete</Button></FormControl>
-                </SimpleGrid>
-
-
-              </div>
-            ))} */}
-            <SimpleGrid columns={[1, 1, 1, 1]} spacing={4} >
-              <Divider orientation="horizontal" borderColor="#2F4F4F" borderWidth="0.5px" /> </SimpleGrid>  <br />
-            <Button marginRight={2} color="#00b0ff" onClick={()=>addOneBlock(internships, setInterships)} >
-              Add
-            </Button>
-            <Button
-              color="red"
-              onClick={() => {
-                removeBlock(internships, setInterships)
-                const lastBlock = blocks2[blocks2.length - 1];
-                if (lastBlock) {
-                  deleteBlock2(lastBlock.id);
-
-
-
-
-                  const newHobbies = [...(resumeInfo.work.from2)];
-                  newHobbies.pop();
-
-                  const updatedProfile = {
-                    ...resumeInfo?.work,
-                    from2: newHobbies,
-                  };
-
-                  const updatedResumeInfo = {
-                    ...resumeInfo,
-                    work: updatedProfile,
-                  };
-
-                  setResumeInfo(updatedResumeInfo);
-
-                }
-              }}
-            >
-              Delete
-            </Button>
-            <SimpleGrid />
-            <br />
-            <Divider orientation="horizontal" borderColor="#2F4F4F" borderWidth="2px" /><br />
-
-
-
-          </FormControl>
-
-        )}
+              <Button onClick={() => handleAddDuty(index)} color="#00b0ff" mt={2} size="sm">
+                Add Duty
+              </Button>
+              {data.duties.length > 0 && (
+              <Button onClick={() => handleDeleteDuty(index)} mt={2} ml={2} size="sm" color="red">
+                Delete Duty
+              </Button>
+            )}
+            </Box>
+          ))}
+
+<SimpleGrid columns={[1, 1, 1, 2]} spacing={1} placeItems="center">
+      <FormControl>
+        <Button marginRight={2} color="#00b0ff" onClick={handleAddAnother}>
+          Add
+        </Button>
+        <Button
+          color="red"
+          onClick={handleDeleteAll}
+        >
+          Delete
+        </Button></FormControl>
+    </SimpleGrid>
+        
+          <Box mt={4}>
+            <Text fontSize="lg">Printed Entries:</Text>
+            {printedEntries}
+          </Box>
+        </VStack>
+          
+          
+          )}
       </Box>
 
       <HStack spacing={8} justify="center">
