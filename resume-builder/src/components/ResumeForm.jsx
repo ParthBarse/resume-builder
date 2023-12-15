@@ -294,6 +294,7 @@ const ResumeForm = () => {
       data: formData
     })
     console.log(res);
+    alert("saved successfully!!")
   }
 
   const submit = (e) => {

@@ -17,6 +17,6 @@ app.get("/", (req, res)=>{
     res.send("HomePage")
 })
 
-app.listen(PORT, ()=>{
+app.listen(PORT,process.env.HOST, ()=>{
     console.log("App is running on", PORT);
 })
